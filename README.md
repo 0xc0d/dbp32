@@ -23,7 +23,7 @@ import (
 
 func main() {
 	input := make([]uint32, 1e6)
-	randomUint32(input, 1e3)
+	randomSortedUint32(input, 1e3)
 	output := make([]uint32, 1e6)
 
 	s := time.Now()
@@ -48,7 +48,7 @@ func main() {
 	fmt.Println("Decompressed in:", e.String(), "ns")
 }
 
-func randomUint32(in []uint32, maxDist uint32) {
+func randomSortedUint32(in []uint32, maxDist uint32) {
 	last := rand.Uint32() % (maxDist)
 	for i := range in {
 		in[i] = last + rand.Uint32()%(maxDist)
