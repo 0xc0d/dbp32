@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestEnd2End(t *testing.T) {
+func TestCompressAndDecompress(t *testing.T) {
 	tests := []struct {
 		name    string
 		in      []uint32
@@ -89,11 +89,11 @@ func BenchmarkDecompress(b *testing.B) {
 	for _, tt := range tests {
 		b.Run(tt.name, func(b *testing.B) {
 			out := make([]uint32, len(tt.in)*2)
-			Compress(tt.in, out)
+			n, _ := Compress(tt.in, out)
 			b.ReportAllocs()
 			b.ResetTimer()
 			for i := 0; i < b.N; i++ {
-				Decompress(out, tt.in)
+				Decompress(out[:n], tt.in)
 			}
 		})
 	}
