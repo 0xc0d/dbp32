@@ -8,6 +8,55 @@ Given a list of sorted integers, it first compute the successive differences pri
 For details, please see [Daniel Lemire and Leonid Boytsov, Decoding billions of integers per second](http://arxiv.org/abs/1209.2137)
 
 
+# Usage
+[This](https://play.golang.org/p/Fj6qslfA2sP) is the link to the go playground although `time.Since` does not work there.
+```go
+package main
+
+import (
+	"fmt"
+	"math/rand"
+	"time"
+
+	"github.com/0xc0d/dbp32"
+)
+
+func main() {
+	input := make([]uint32, 1e6)
+	randomUint32(input, 1e3)
+	output := make([]uint32, 1e6)
+
+	s := time.Now()
+	n, err := dbp32.Compress(input, output)
+	if err != nil {
+		panic(err)
+	}
+	e := time.Since(s)
+
+	fmt.Println("Compressed in:", e.String(), "Ratio: ", float64(1e6)/float64(n))
+
+	s = time.Now()
+	n, err = dbp32.Decompress(output[:n], input)
+	if err != nil {
+		panic(err)
+	}
+	if n != 1e6 {
+		panic("decompression failed")
+	}
+	e = time.Since(s)
+
+	fmt.Println("Decompressed in:", e.String(), "ns")
+}
+
+func randomUint32(in []uint32, maxDist uint32) {
+	last := rand.Uint32() % (maxDist)
+	for i := range in {
+		in[i] = last + rand.Uint32()%(maxDist)
+		last = in[i]
+	}
+}
+```
+
 # Benchmark
 ```
 cpu: Intel(R) Core(TM) i9-9880H CPU @ 2.30GHz
