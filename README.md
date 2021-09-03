@@ -2,7 +2,7 @@
 Unsigned Integer 32 Byte Packing Compression. Inspired by [lemire/FastPFor](https://github.com/lemire/FastPFor).
 
 
-Package bp32 is an implementation of the binary packing integer compression algorithm in in Go (also known as PackedBinary) using  unsigned 32 integer blocks.
+Package bp32 is an implementation of the binary packing integer compression algorithm in Go using unsigned 32 integer blocks.
 It is mostly suitable for sorted arrays containing small positive 32bit-integers like IPv4 addresses or timestamp.
 Given a list of sorted integers, it computes the successive differences prior for compression purposes.
 For details, check [Daniel Lemire and Leonid Boytsov, Decoding billions of integers per second](http://arxiv.org/abs/1209.2137).
